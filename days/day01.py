@@ -43,6 +43,8 @@ produces the answer, 241861950.
 In your expense report, what is the product of the three entries that sum to 2020?
 """
 
+from aoc import *
+
 
 def part1(inputs):
     for x in inputs:
@@ -59,8 +61,6 @@ def part2(inputs):
                     return x * y * z
 
 
-with open('../inputs/day01.txt', 'r') as file:
-    puzzle_input = [int(s) for s in file.read().split('\n')]
-
+puzzle_input = ints(puzzle_input(1))
 print(f'Part 1: {part1(puzzle_input)}')
 print(f'Part 2: {part2(puzzle_input)}')
