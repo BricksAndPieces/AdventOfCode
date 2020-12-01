@@ -3,6 +3,7 @@ import urllib.request
 from os import path
 import ssl
 
+# Avoid certificate issues (OK because only accessing AOC)
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
@@ -11,7 +12,7 @@ def puzzle_input(day, year='2020'):
     if not path.exists(file_path) or path.getsize(file_path) == 0:
         print('Downloading Input...')
         opener = urllib.request.build_opener()
-        opener.addheaders.append(('Cookie', f'session={get_cookie()}'))
+        opener.addheaders.append(('Cookie', f'session={__get_cookie()}'))
         url = f'https://adventofcode.com/{year}/day/{day}/input'
         page = opener.open(url)
 
@@ -22,7 +23,7 @@ def puzzle_input(day, year='2020'):
         return file.read()
 
 
-def get_cookie(file='../cookie.txt'):
+def __get_cookie(file='../cookie.txt'):
     with open(file, 'r') as file:
         return file.read()
 
