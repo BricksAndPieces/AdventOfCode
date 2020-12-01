@@ -8,7 +8,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 def puzzle_input(day, year='2020'):
     file_path = f'../inputs/day{day:02d}.txt'
-    if not path.exists(file_path):
+    if not path.exists(file_path) or path.getsize(file_path) == 0:
         print('Downloading Input...')
         opener = urllib.request.build_opener()
         opener.addheaders.append(('Cookie', f'session={get_cookie()}'))
