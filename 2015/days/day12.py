@@ -32,8 +32,7 @@ DISCLAIMER:
 Inspiration for part 2 taken from https://github.com/snowbagoly/adventofcode2015/blob/master/day12.py
 I couldn't figure out how to correctly traverse the json object.
 
-TODO
-Come back and create my own implementation of the solution.
+TODO Come back and create my own implementation of the solution.
 """
 
 from aoc import *
