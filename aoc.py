@@ -33,3 +33,7 @@ def __get_cookie(file='/cookie.txt'):
 
 def ints(str_array, split='\n'):
     return [int(s) for s in str_array.split(split)]
+
+
+def iterate_char(c: str):
+    return chr(ord(c) + 1) if c.lower() != 'z' else 'a' if c.islower() else 'A'
