@@ -4,7 +4,7 @@ Problem here
 
 from aoc import *
 
-inputs = puzzle_input(DAY, YEAR)
+inputs = puzzle_input(DAY, YEAR).split('\n')
 ans1 = ans2 = 0
 
 # Puzzle Code
