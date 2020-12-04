@@ -56,7 +56,6 @@ if __name__ == '__main__':
     # noinspection PyBroadException
     try:
         create_day_file(int(sys.argv[1]), sys.argv[2])
-        print('Ex. python3 aoc.py 5 2020')
     except:
         print('Please provide a day and year')
         print('Ex. python3 aoc.py 5 2020')
