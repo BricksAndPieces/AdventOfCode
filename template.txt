@@ -2,11 +2,15 @@
 Problem here
 """
 
+from itertools import combinations, permutations
+import numpy as np
 from aoc import *
+import re
 
 inputs = puzzle_input(DAY, YEAR).split('\n')
 
-# Puzzle Code
+for line in inputs:
+    break # Puzzle Code
 
 print(f'Part 1: {0}')
 print(f'Part 2: {0}')
