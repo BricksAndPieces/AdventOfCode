@@ -153,7 +153,9 @@ trillion valid ways to arrange them! Surely, there must be an efficient way to c
 What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?
 """
 
+#from aoc import *
 from aoc import *
+import functools
 
 inputs = ints(puzzle_input(10, 2020))
 device_jolts = max(inputs) + 3
@@ -173,22 +175,19 @@ for i, jolt in enumerate(inputs):
 
 print(f'Part 1: {one * three}')
 
-inputs.remove(0)
-inputs.remove(device_jolts)
 
+@functools.lru_cache(256)
+def valid_adapters(adapter):
+    index = inputs.index(adapter)
+    if index == len(inputs)-1:
+        return 1
 
-def distinct_combos(adapters, start, end):
     count = 0
-    if end - start <= 3:
-        count += 1
-    if not adapters:
-        return count
-    if adapters[0] - start <= 3:
-        count += distinct_combos(adapters[1:], adapters[0], end)
+    for i in range(index+1, len(inputs)):
+        if inputs[i] - adapter <= 3:
+            count += valid_adapters(inputs[i])
 
-    return count + distinct_combos(adapters[1:], start, end)
+    return count
 
 
-distinct_combos = cache(distinct_combos, lambda args: (len(args[0]), args[1]))
-valid = distinct_combos(inputs, 0, device_jolts)
-print(f'Part 2: {valid}')
+print(f'Part 2: {valid_adapters(0)}')
