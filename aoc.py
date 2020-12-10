@@ -48,6 +48,20 @@ def iterate_char(c: str):
     return chr(ord(c) + 1) if c.lower() != 'z' else 'a' if c.islower() else 'A'
 
 
+def cache(func, key=lambda args: args):
+    mem = dict()
+
+    def memoized_func(*args):
+        k = key(args)
+        if k in mem:
+            return mem[k]
+        result = func(*args)
+        mem[k] = result
+        return result
+
+    return memoized_func
+
+
 """
 Allows the user to create a python file for a puzzle based of the day and year
 This is run if aoc.py is called from the command line to speed up creation of day files
