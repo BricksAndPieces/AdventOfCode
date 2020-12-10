@@ -153,7 +153,6 @@ trillion valid ways to arrange them! Surely, there must be an efficient way to c
 What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?
 """
 
-#from aoc import *
 from aoc import *
 import functools
 
