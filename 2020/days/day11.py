@@ -217,10 +217,8 @@ inputs = [list(i) for i in puzzle_input(11, 2020).split('\n')]
 
 def num_adjacent(x, y, s, part):
     count = 0
-    for dz in product([-1, 0, 1], repeat=2):
-        dx = dz[0]
-        dy = dz[1]
-        if dz == (0, 0):
+    for dx, dy in product([-1, 0, 1], repeat=2):
+        if (dx, dy) == (0, 0):
             continue
 
         if part == 1:
