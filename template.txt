@@ -5,13 +5,14 @@ Problem here
 from itertools import combinations, permutations
 from functools import lru_cache
 import numpy as np
-from aoc import *
 import re
+
+from aoc import *
 
 inputs = puzzle_input(DAY, YEAR).split('\n')
 
 for line in inputs:
-    break # Puzzle Code
+    break  # Puzzle Code
 
 print(f'Part 1: {0}')
 print(f'Part 2: {0}')
