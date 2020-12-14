@@ -2,7 +2,7 @@
 Problem here
 """
 
-from itertools import combinations, permutations
+from itertools import combinations, permutations, product
 from functools import lru_cache
 import numpy as np
 import re
