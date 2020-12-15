@@ -18,9 +18,9 @@ def create_day_file(day, year):
         file.write(template)
 
 
-def puzzle_input(day, year='2020'):
-    file_path = f'{project_path}/{year}/inputs/day{day:02d}.txt'
-    if not path.exists(file_path) or path.getsize(file_path) == 0:
+def puzzle_input(day, year='2020', sample=False):
+    file_path = f'{project_path}/{year}/{"samples" if sample else "inputs"}/day{day:02d}.txt'
+    if not sample and (not path.exists(file_path) or path.getsize(file_path) == 0):
         print('Downloading Input...')
         opener = urllib.request.build_opener()
         opener.addheaders.append(('Cookie', f'session={__get_cookie()}'))
