@@ -17,6 +17,10 @@ def create_day_file(day, year):
     with open(project_path + f'/{year}/days/day{day:02d}.py', 'w') as file:
         file.write(template)
 
+    # Create Empty Sample File
+    sample_file = open(project_path + f'/{year}/samples/day{day:02d}.txt', 'w')
+    sample_file.close()
+
 
 def puzzle_input(day, year='2020', sample=False):
     file_path = f'{project_path}/{year}/{"samples" if sample else "inputs"}/day{day:02d}.txt'
@@ -38,6 +42,18 @@ def puzzle_input(day, year='2020', sample=False):
 def __get_cookie(file='/cookie.txt'):
     with open(project_path + file, 'r') as file:
         return file.read()
+
+
+def timeit(some_function):
+    def wrapper(*args, **kwargs):
+        import time
+        t1 = time.time()
+        x = some_function(*args, **kwargs)
+        t2 = time.time()
+        print(f'Time Taken: {t2 - t1} sec')
+        return x
+
+    return wrapper
 
 
 def ints(str_array, split='\n'):
