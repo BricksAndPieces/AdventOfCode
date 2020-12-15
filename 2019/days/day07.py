@@ -6,11 +6,16 @@ from aoc import *
 from itertools import permutations
 
 
-def int_code(program, phase, code_input):
-    phase_inputted = False
-    i = 0
-    while program[i] != 99:
-        instruction = f'{program[i]:05}'
+class Computer:
+    def __init__(self, program, phase):
+        self.program = program
+        self.phase = phase
+        self.phase_inputted = False
+        self.index = 0
+        self.halted = False
+
+    def get_args(self):
+        instruction = f'{self.program[self.index]:05}'
         op = int(instruction[3:])
         params = [int(s) for s in instruction[:3]]
 
@@ -18,47 +23,55 @@ def int_code(program, phase, code_input):
         args = []
         if op in [1, 2, 4, 5, 6, 7, 8]:
             if mode_c == 0:
-                args.append(program[program[i + 1]])
+                args.append(self.program[self.program[self.index + 1]])
             else:
-                args.append(program[i + 1])
+                args.append(self.program[self.index + 1])
 
             if op in [1, 2, 5, 6, 7, 8]:
                 if mode_b == 0:
-                    args.append(program[program[i + 2]])
+                    args.append(self.program[self.program[self.index + 2]])
                 else:
-                    args.append(program[i + 2])
+                    args.append(self.program[self.index + 2])
 
                 if op in []:
                     if mode_a == 0:
-                        args.append(program[program[i + 3]])
+                        args.append(self.program[self.program[self.index + 3]])
                     else:
-                        args.append(program[i + 3])
+                        args.append(self.program[self.index + 3])
 
-        if op == 1:
-            program[program[i + 3]] = args[0] + args[1]
-            i += 4
-        elif op == 2:
-            program[program[i + 3]] = args[0] * args[1]
-            i += 4
-        elif op == 3:
-            program[program[i + 1]] = code_input if phase_inputted else phase
-            phase_inputted = True
-            i += 2
-        elif op == 4:
-            return args[0]
-            # i += 2
-        elif op == 5:
-            i = args[1] if args[0] else i + 3
-        elif op == 6:
-            i = args[1] if not args[0] else i + 3
-        elif op == 7:
-            program[program[i + 3]] = 1 if args[0] < args[1] else 0
-            i += 4
-        elif op == 8:
-            program[program[i + 3]] = 1 if args[0] == args[1] else 0
-            i += 4
-        else:
-            print(f'Something went wrong: Opcode {op}')
+        return op, args
+
+    def output(self, code_input):
+        while self.program[self.index] != 99:
+            op, args = self.get_args()
+            if op == 1:
+                self.program[self.program[self.index + 3]] = args[0] + args[1]
+                self.index += 4
+            elif op == 2:
+                self.program[self.program[self.index + 3]] = args[0] * args[1]
+                self.index += 4
+            elif op == 3:
+                self.program[self.program[self.index + 1]] = code_input if self.phase_inputted else self.phase
+                self.phase_inputted = True
+                self.index += 2
+            elif op == 4:
+                self.index += 2
+                return args[0]
+            elif op == 5:
+                self.index = args[1] if args[0] else self.index + 3
+            elif op == 6:
+                self.index = args[1] if not args[0] else self.index + 3
+            elif op == 7:
+                self.program[self.program[self.index + 3]] = 1 if args[0] < args[1] else 0
+                self.index += 4
+            elif op == 8:
+                self.program[self.program[self.index + 3]] = 1 if args[0] == args[1] else 0
+                self.index += 4
+            else:
+                print(self.program)
+                raise Exception(f'Invalid Opcode: {op}')
+
+        self.halted = True
 
 
 def part1(inputs):
@@ -69,7 +82,8 @@ def part1(inputs):
 
         for i in phase:
             program = inputs.copy()
-            code_input = int_code(program, i, code_input)
+            comp = Computer(program, i)
+            code_input = comp.output(code_input)
 
         max_thrust = max(max_thrust, code_input)
 
@@ -77,7 +91,21 @@ def part1(inputs):
 
 
 def part2(inputs):
-    pass
+    max_thrust = 0
+    phases = permutations([5, 6, 7, 8, 9])
+    for phase in phases:
+        code_input = 0
+        comps = [Computer(inputs.copy(), i) for i in phase]
+
+        while not comps[0].halted:
+            for comp in comps:
+                val = comp.output(code_input)
+                if val is not None:
+                    code_input = val
+
+        max_thrust = max(max_thrust, code_input)
+
+    return max_thrust
 
 
 puzzle_input = ints(puzzle_input(7, 2019), ',')
