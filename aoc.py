@@ -1,6 +1,7 @@
 from urllib.request import urlopen
 import urllib.request
 from os import path
+from functools import reduce
 import ssl
 import sys
 
@@ -62,6 +63,10 @@ def ints(str_array, split='\n'):
 
 def iterate_char(c: str):
     return chr(ord(c) + 1) if c.lower() != 'z' else 'a' if c.islower() else 'A'
+
+
+def mult(arr):
+    return reduce(lambda x, y: x * y, arr)
 
 
 """
