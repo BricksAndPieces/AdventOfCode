@@ -293,21 +293,24 @@ for raw_tile in puzzle_input(20, 2020, sample=False).split('\n\n'):
 
     tiles[key] = tile
 
-tileSize = len(tiles[list(tiles.keys())[0]])
-tileConnections = {}
-for tile1ID, tile1 in tiles.items():
-    for tile2ID, tile2 in tiles.items():
-        if tile1ID == tile2ID: continue
+connections = {}
+for tile1_id, tile1 in tiles.items():
+    for tile2_id, tile2 in tiles.items():
+        if tile1_id == tile2_id:
+            continue
 
-        for side1Direction, side1 in tile_edges(tile1).items():
-            for side2Direction, side2 in tile_edges(tile2).items():
+        for side1_dir, side1 in tile_edges(tile1).items():
+            for side2_dir, side2 in tile_edges(tile2).items():
                 if (side1 == side2).all() or (side1 == side2[::-1]).all():
-                    if tile1ID not in tileConnections:
-                        tileConnections[tile1ID] = {}
-                    tileConnections[tile1ID][side1Direction] = tile2ID
+                    if tile1_id not in connections:
+                        connections[tile1_id] = {}
+                    connections[tile1_id][side1_dir] = tile2_id
 
-cornerTiles = [tileID for tileID, conns in tileConnections.items() if len(conns) == 2]
-print(f'Part 1: {mult(cornerTiles)}')
+corners = [tileID for tileID, conns in connections.items() if len(conns) == 2]
+print(f'Part 1: {mult(corners)}')
+
+# ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- #
+# Modified stitching code from https://github.com/KanegaeGabriel/advent-of-code-2020/blob/main/20_jurassic_jigsaw.py
 
 mov4 = {"R": (0, 1), "D": (1, 0), "L": (0, -1), "U": (-1, 0)}
 dirsOpposite = {"D": "U", "U": "D", "L": "R", "R": "L"}
@@ -317,17 +320,16 @@ dirsFlipH = {k: (v if k in "LR" else dirsOpposite[v]) for k, v in dirsOpposite.i
 dim = int(math.sqrt(len(tiles)))
 img = np.zeros((dim, dim), dtype=np.ndarray)
 
-startTile = cornerTiles[0]
-if all(c in tileConnections[startTile] for c in "DR"):  # Top-left
+startTile = corners[0]
+if all(c in connections[startTile] for c in "DR"):
     startPos = (0, 0)
-elif all(c in tileConnections[startTile] for c in "DL"):  # Top-right
+elif all(c in connections[startTile] for c in "DL"):
     startPos = (0, len(img) - 1)
-elif all(c in tileConnections[startTile] for c in "UR"):  # Bottom-left
+elif all(c in connections[startTile] for c in "UR"):
     startPos = (len(img) - 1, 0)
-elif all(c in tileConnections[startTile] for c in "UL"):  # Bottom-right
+elif all(c in connections[startTile] for c in "UL"):
     startPos = (len(img) - 1, len(img) - 1)
 
-# BFS starting from the picked corner until the grid is filled
 queue = deque([(startPos, startTile)])
 tilesPlaced = set()
 while queue:
@@ -339,15 +341,15 @@ while queue:
     tilesPlaced.add(tile)
     img[pos] = tiles[tile]
 
-    for direction, adjTile in tileConnections[tile].items():
+    for direction, adjTile in connections[tile].items():
         tries = 0
         while not (tile_edges(tiles[adjTile])[dirsOpposite[direction]] == tile_edges(tiles[tile])[direction]).all():
             if tries == 3:
                 tiles[adjTile] = np.flip(tiles[adjTile], axis=1)
-                tileConnections[adjTile] = {dirsFlipH[k]: v for k, v in tileConnections[adjTile].items()}
+                connections[adjTile] = {dirsFlipH[k]: v for k, v in connections[adjTile].items()}
             else:
                 tiles[adjTile] = np.rot90(tiles[adjTile], 3)
-                tileConnections[adjTile] = {dirsRot90CW[k]: v for k, v in tileConnections[adjTile].items()}
+                connections[adjTile] = {dirsRot90CW[k]: v for k, v in connections[adjTile].items()}
             tries += 1
 
         delta = mov4[direction]
