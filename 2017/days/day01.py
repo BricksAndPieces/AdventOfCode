@@ -1,18 +1,11 @@
 """
-Problem goes here
+Problem here
 """
 
 from aoc import *
 
+inputs = [int(s) for s in puzzle_input(1, 2017, sample=False)]
+solve = lambda jump: sum(n for i, n in enumerate(inputs) if n == inputs[(i + jump) % len(inputs)])
 
-def part1(inputs):
-    pass
-
-
-def part2(inputs):
-    pass
-
-
-puzzle_input = ints(puzzle_input(3))
-print(f'Part 1: {part1(puzzle_input)}')
-print(f'Part 2: {part2(puzzle_input)}')
+print(f'Part 1: {solve(1)}')
+print(f'Part 2: {solve(len(inputs) // 2)}')
