@@ -45,6 +45,9 @@ def __get_cookie(file='/cookie.txt'):
         return file.read()
 
 
+" ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- "
+
+
 def timeit(some_function):
     def wrapper(*args, **kwargs):
         import time
@@ -69,12 +72,15 @@ def mult(arr):
     return reduce(lambda x, y: x * y, arr)
 
 
+" ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- "
+
 """
 Allows the user to create a python file for a puzzle based of the day and year
 This is run if aoc.py is called from the command line to speed up creation of day files
+
+Ex. python3 aoc.py 05 2021
 """
 if __name__ == '__main__':
-    # noinspection PyBroadException
     try:
         create_day_file(int(sys.argv[1]), sys.argv[2])
     except:
