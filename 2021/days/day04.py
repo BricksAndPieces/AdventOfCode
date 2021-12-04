@@ -87,7 +87,6 @@ Figure out which board will win last. Once it wins, what would its final score b
 """
 
 from dataclasses import dataclass
-from copy import deepcopy
 from aoc import *
 
 
@@ -102,10 +101,7 @@ class Board:
         self.content = [[BingoElement(element) for element in line] for line in board_nums]
 
     def is_completed(self):
-        return (
-            any(all(element.marked for element in line) for line in self.content) or
-            any(all(element.marked for element in line) for line in zip(*self.content[::-1]))
-        )
+        return any(all(el.marked for el in line) for line in self.content + [*zip(*self.content[::-1])])
 
     def mark_num(self, num):
         for line in self.content:
@@ -114,30 +110,25 @@ class Board:
                     el.marked = True
 
     def sum_unmarked(self):
-        return sum([sum([(0 if el.marked else el.num) for el in line]) for line in self.content])
+        return sum(sum((0 if el.marked else el.num) for el in line) for line in self.content)
 
 
 inputs = puzzle_input(4, 2021, sample=False).split('\n')
 rng_nums = [int(a) for a in inputs[0].split(',')]
 
-# Ugly string manipulation
 boards = '\n'.join(inputs[2:]).split('\n\n')
 boards = [[[int(n) for n in line.lstrip().replace('  ', ' ').split(' ')] for line in b.split('\n')] for b in boards]
 boards = [Board(b) for b in boards]
 
+part1 = True
+for n in rng_nums:
+    for b in boards:
+        b.mark_num(n)
+        if part1 and b.is_completed():
+            print(f'Part 1: {n * b.sum_unmarked()}')
+            part1 = False
 
-def solve(rng_nums, boards, part1):
-    for n in rng_nums:
-        for b in boards:
-            b.mark_num(n)
-            if part1 and b.is_completed():
-                return f'Part 1: {n * b.sum_unmarked()}'
+    if len(boards) == 1 and boards[0].is_completed():
+        print(f'Part 2: {n * boards[0].sum_unmarked()}')
 
-        if (not part1) and len(boards) == 1 and boards[0].is_completed():
-            return f'Part 2: {n * b.sum_unmarked()}'
-
-        boards = [b for b in boards if not b.is_completed()]
-
-
-print(solve(rng_nums, deepcopy(boards), part1=True))
-print(solve(rng_nums, deepcopy(boards), part1=False))
+    boards = [b for b in boards if not b.is_completed()]
