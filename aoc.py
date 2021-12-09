@@ -68,8 +68,8 @@ def iterate_char(c: str):
     return chr(ord(c) + 1) if c.lower() != 'z' else 'a' if c.islower() else 'A'
 
 
-def mult(arr):
-    return reduce(lambda x, y: x * y, arr)
+def mult(*args):
+    return reduce(lambda x, y: x * y, *args, 1)
 
 
 " ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- "
