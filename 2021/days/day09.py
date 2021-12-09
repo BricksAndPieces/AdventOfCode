@@ -105,13 +105,12 @@ def flood_fill(x, y):
     amt = 1
     for (dx, dy) in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
         pt = (x + dx, y + dy)
-        if valid_point(*pt) and pt not in reached_coords and 9 != inputs[x + dx][y + dy] > inputs[x][y]:
+        if valid_point(*pt) and 9 != inputs[x + dx][y + dy] > inputs[x][y]:
             amt += flood_fill(*pt)
-            reached_coords.add(pt)
+            inputs[x+dx][y+dy] = 9  # set seen locations to 9 to prevent overlap
 
     return amt
 
 
-reached_coords = set()
 flooded = (flood_fill(x, y) for (x, y) in lowest)
 print(f'Part 2: {mult(sorted(flooded, reverse=True)[:3])}')
