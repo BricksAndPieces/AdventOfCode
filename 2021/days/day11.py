@@ -365,7 +365,7 @@ inputs = [[int(x) for x in s] for s in inputs]
 
 def increment_neighbors(x, y, matrix):
     for dx, dy in product([-1, 0, 1], [-1, 0, 1]):
-        valid = 0 <= x+dx <= len(matrix) - 1 and 0 <= y+dy <= len(matrix[0]) - 1
+        valid = 0 <= x+dx < len(matrix) and 0 <= y+dy < len(matrix[0])
         if (dx, dy) != (0, 0) and valid:
             matrix[x + dx][y + dy] += 1
 
