@@ -139,8 +139,7 @@ sheet_coords = [ints(a, ',') for a in inputs[0].split('\n')]
 fold_instructions = [((line := instr[11:].split('='))[0], int(line[1])) for instr in inputs[1].split('\n')]
 
 for n, instr in enumerate(fold_instructions):
-    max_x = max(a for a, _ in sheet_coords)
-    max_y = max(a for _, a in sheet_coords)
+    max_x, max_y = max(sheet_coords)
 
     new_coords = set()
     for (x, y) in sheet_coords:
