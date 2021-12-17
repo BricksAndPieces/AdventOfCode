@@ -1,6 +1,6 @@
 """
---- Day DAY: {PUZZLE NAME HERE} ---
-https://adventofcode.com/YEAR/day/DAY
+Problem here
+https://adventofcode.com/2021/day/18
 """
 
 from collections import defaultdict, deque
@@ -11,7 +11,7 @@ import re
 
 from aoc import *
 
-inputs = puzzle_input(DAY, YEAR, sample=True).split('\n')
+inputs = puzzle_input(18, 2021, sample=True).split('\n')
 
 for line in inputs:
     break  # Puzzle Code
