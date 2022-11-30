@@ -1,4 +1,3 @@
-from urllib.request import urlopen
 import urllib.request
 import os
 from os import path
@@ -60,6 +59,7 @@ def __get_cookie(file='/cookie.txt'):
 " ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- "
 
 
+# running time of a function
 def timeit(some_function):
     def wrapper(*args, **kwargs):
         import time
@@ -72,14 +72,17 @@ def timeit(some_function):
     return wrapper
 
 
-def ints(str_array, split='\n'):
-    return [int(s) for s in str_array.split(split)]
+# string to ints array
+def ints(str_val, split='\n'):
+    return [int(s) for s in str_val.split(split)]
 
 
+# iterate through chars (a -> b ... z -> a)
 def iterate_char(c: str):
     return chr(ord(c) + 1) if c.lower() != 'z' else 'a' if c.islower() else 'A'
 
 
+# multiply list of args
 def mult(*args):
     return reduce(lambda x, y: x * y, *args, 1)
 
