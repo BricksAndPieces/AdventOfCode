@@ -93,9 +93,4 @@ This is run if aoc.py is called from the command line to speed up creation of da
 Ex. python3 aoc.py 05 2021
 """
 if __name__ == '__main__':
-    try:
-        create_day_file(int(sys.argv[1]), sys.argv[2])
-    except e:
-        print(e)
-        print('Please provide a day and year')
-        print('Ex. python3 aoc.py 5 2020')
+    create_day_file(int(sys.argv[1]), sys.argv[2])
