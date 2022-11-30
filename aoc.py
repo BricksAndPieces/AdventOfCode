@@ -1,5 +1,6 @@
 from urllib.request import urlopen
 import urllib.request
+import os
 from os import path
 from functools import reduce
 import ssl
@@ -11,16 +12,27 @@ project_path = path.dirname(path.abspath(__file__))
 
 
 def create_day_file(day, year):
+    # generate any missing directories
+    if not path.exists(project_path + '/' + year):
+        print('\u2705 Created missing directory: "' + project_path + '/' + year + '"')
+        os.mkdir(project_path + '/' + year)
+    for dir in ['days', 'inputs', 'samples']:
+        if not path.exists(project_path + '/' + year + '/' + dir):
+            print('\u2705 Created missing directory: "' + project_path + '/' + year + '/' + dir + '"')
+            os.mkdir(project_path + '/' + year + '/' + dir)
+
     with open(project_path + '/template.txt', 'r') as file:
         template = file.read()
 
     template = template.replace('DAY', f'{day}').replace('YEAR', f'{year}')
     with open(project_path + f'/{year}/days/day{day:02d}.py', 'w') as file:
         file.write(template)
+        print('\u2705 Created day file from template')
 
     # Create Empty Sample File
     sample_file = open(project_path + f'/{year}/samples/day{day:02d}.txt', 'w')
     sample_file.close()
+    print('\u2705 Created empty sample file')
 
 
 def puzzle_input(day, year='2020', sample=False):
@@ -83,6 +95,7 @@ Ex. python3 aoc.py 05 2021
 if __name__ == '__main__':
     try:
         create_day_file(int(sys.argv[1]), sys.argv[2])
-    except:
+    except e:
+        print(e)
         print('Please provide a day and year')
         print('Ex. python3 aoc.py 5 2020')
