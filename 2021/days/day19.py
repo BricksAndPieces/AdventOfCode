@@ -1,6 +1,6 @@
 """
---- Day 23: Amphipod ---
-https://adventofcode.com/2021/day/23
+--- Day 19: Beacon Scanner ---
+https://adventofcode.com/2021/day/19
 """
 
 from collections import defaultdict, deque
@@ -11,11 +11,10 @@ import re
 
 from aoc import *
 
-inputs = puzzle_input(23, 2021, sample=True).split('\n')
+inputs = puzzle_input(19, 2021, sample=True).split('\n')
 
-
-
-print(inputs)
+for line in inputs:
+    break  # Puzzle Code
 
 print(f'Part 1: {0}')
 print(f'Part 2: {0}')
