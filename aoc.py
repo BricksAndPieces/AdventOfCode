@@ -45,7 +45,7 @@ def puzzle_input(day, year='2020', sample=False):
         page = opener.open(url)
 
         with open(file_path, 'w') as file:
-            file.write(page.read().decode('utf-8').strip())
+            file.write(page.read().decode('utf-8').rstrip())
 
     with open(file_path, 'r') as file:
         return file.read()
