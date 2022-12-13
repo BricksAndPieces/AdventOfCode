@@ -3,15 +3,12 @@
 https://adventofcode.com/2022/day/13
 """
 
+from json import loads
 from functools import cmp_to_key
 from aoc import *
 
 inputs = puzzle_input(13, 2022, sample=False).split('\n\n')
-
-pairs = []
-for line in inputs:
-    a_raw, b_raw = line.split('\n')
-    pairs.append([eval(a_raw), eval(b_raw)])
+pairs = [[loads(a) for a in line.split('\n')] for line in inputs]
 
 def right_order(l, r):
     if type(l) == type(r) == int:
